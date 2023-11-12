@@ -1,0 +1,51 @@
+1. Which features are most relevant?
+
+indicating higher applicant engagement/desire before depositing, which should be correlated to conversion:
+num_inbound_emails, 
+num_inbound_calls, 
+received_docs,
+referrer - is this clients referred by an RB,
+
+
+Likely clients from particular countries will be more prone to depositing, as I belive FXCM has a client prioritization system based on 'country'. This prioritization should affect account opening time, Sales efforts and Marketing's client targeting.
+country,
+num_outbound_emails,
+num_outbound_calls
+
+
+2. What feature engineering would you consider doing?
+
+- reformat features to numerical values
+- using feature characteristics to remove irrelevant records ('application_type', 'screening_status', more details in the notebook)
+- identify and analyze missing values
+	- substitute missing values where possible ('batch_result')
+	- drop features where missing values substitution is not possible
+	- drop subset of records where values are missing for multiple features
+
+3. What features would you *not* consider using and why?
+
+These seem to me the least correlated with a client's likelyhood to deposit:
+
+base_ccy - might be related to deposit methods difficulty/complexity, but is unlikely to be that infuential in terms of deposit likelyhood
+entity - should be somewhat correlated to 'country'. If 'country' is used it could lead to multicollinearity. Perhaps it can be used instead of country
+server - different values should be internal decision based on multitude of factors and not a variable explicitly related to the client's profile
+house_name - this one should be correlated to country and referrer (RB?). Perhaps it can be used instead of country and referrer
+org - Organization? should be entirely depended on country, thus, it does not bring new information to the analysis
+application_type - the majority of applications are Individual in this dataset (Corporate/Trust excluded, ~97.6% of the total), thus, majority of converted accounts will be Individual (likely 97% of the time). This variable is not very variable :D. + Joint accounts were recently discontinued as an option, thus, this feature will not be useful in new application predictions.
+kyc_status - this feature has too many missing values. 73% of the records do not have kyc_status, thus, it would not meaningfully contribute to the model's estimation
+
+4. What considerations / concerns would you have regarding this dataset?
+
+Main concern is that most features are FXCM's internal decisions indicators based primarily on country of residence. I would like to see more features related to the client's risk tolerance profile. Although country of residence is a major indicator of the client's risk tolerance profile, the rest seem correlated to country, apart from inbound calls/emails.
+
+5. What additional features would you request (no more than 5 suggestions are necessary)?
+
+Features more personally related to the client:
+employment and financial information
+repeat applicant - is this the client's first application?
+age
+gender
+FX experience
+
+Bonus research question: Are immigrants more risk tolerant? (this can be tested
+ with the applicaiton information we have)
